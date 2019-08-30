@@ -97,3 +97,17 @@ button:hover {
   font-family: monospace;
   margin: 3px;
 }
+
+
+.card img {
+  width: 100%;
+}
+
+.card p {
+  font-size: 16px;
+}
+
+
+.like-btn {
+  height: 25px;
+}
