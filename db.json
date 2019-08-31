@@ -47,6 +47,12 @@
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
       "likes": -2
+    },
+    {
+      "name": "Rody",
+      "image": "https://d1qb2nb5cznatu.cloudfront.net/users/5385959-large?1529951996",
+      "id": 9,
+      "likes": 1000
     }
   ]
 }
