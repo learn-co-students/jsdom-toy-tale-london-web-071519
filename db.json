@@ -16,7 +16,7 @@
       "id": 3,
       "name": "Mr. Potato Head",
       "image": "https://vignette.wikia.nocookie.net/universe-of-smash-bros-lawl/images/d/d8/Mr-potato-head-toy-story.gif/revision/latest?cb=20151129131217",
-      "likes": 3
+      "likes": 5
     },
     {
       "id": 4,
@@ -46,13 +46,36 @@
       "id": 8,
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
-      "likes": -2
+      "likes": 3
     },
     {
       "name": "Rody",
       "image": "https://d1qb2nb5cznatu.cloudfront.net/users/5385959-large?1529951996",
       "id": 9,
       "likes": 1000
+    },
+    {
+      "name": "Sammy",
+      "image": "https://i.pinimg.com/originals/08/04/0e/08040edba5029fb9acd6dee9013187f1.jpg",
+      "id": 10
+    },
+    {
+      "name": "Toby",
+      "image": "https://vidreactor.com/wp-content/uploads/2017/07/toby-the-pup-1931.jpg",
+      "id": 11,
+      "likes": 2
+    },
+    {
+      "name": "Riven",
+      "image": "https://www.mobafire.com/images/avatars/riven-classic.png",
+      "id": 12,
+      "likes": 4
+    },
+    {
+      "name": "Jessie",
+      "image": "https://upload.wikimedia.org/wikipedia/en/8/87/Jessie_%28Toy_Story%29.png",
+      "likes": 7,
+      "id": 13
     }
   ]
 }

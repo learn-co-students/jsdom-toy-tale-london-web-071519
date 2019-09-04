@@ -1,13 +1,12 @@
 const addBtn = document.querySelector('#new-toy-btn')
 const toyForm = document.querySelector('.container')
-const toyCollection = document.querySelector('#toy-collection')
+const toysURL = 'http://localhost:3000/toys'
+let toyCollection = document.querySelector('#toy-collection')
 let addToy = false
-const createToyForm = document.querySelector(".add-toy-form")
-let likes;
 
 
-// YOUR CODE HERE
-/////////////EVENT LISTENERS//////////////////
+/////////////////////////////////////
+////////////////ADD New Toy Toggle
 addBtn.addEventListener('click', () => {
   // hide & seek with the form
   addToy = !addToy
@@ -17,69 +16,89 @@ addBtn.addEventListener('click', () => {
     toyForm.style.display = 'none'
   }
 })
+/////////////////////////////////////
+/////////////////////////////////////
 
+/////////////////////////////////////
+/////////Listening to form///////////
+toyForm.addEventListener('submit', event => {
+  event.preventDefault()
+  let name = event.target.name.value
+  let image = event.target.image.value
+  let likes = 0
+  addToyToDB(name, image, likes)
+  event.target.reset()
+})
+///////Posting to Database///////////
+function addToyToDB(name, image, likes) {
+    return fetch(toysURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        image,
+        likes
+      })
+      })
+      .then(resp => resp.json())
+      .then(toy => renderToy(toy))
+}
+/////////////////////////////////////
+/////////////////////////////////////
 
+/////////////////////////////////////
+/////////fetching toys in db/////////
+function renderToys() {
+  return fetch(toysURL)
+    .then(resp => resp.json())
+    .then(toys => toys.forEach(toy => renderToy(toy)))
+}
 
-createToyForm.addEventListener('submit', createToy)
+function renderToy(toy) {
+  let divEl = document.createElement('div')
+  divEl.classList.add('card')
+  let h2El = document.createElement('h2')
+  h2El.innerText = toy.name
+  let imgEl = document.createElement('img')
+  imgEl.classList.add('toy-avatar')
+  imgEl.src = toy.image
+  let pEl = document.createElement('p')
+  pEl.innerText = toy.likes
+  let buttonEl = document.createElement('button')
+  buttonEl.classList.add('like-btn')
+  buttonEl.innerText = 'Like <3'
 
-document.addEventListener("DOMContentLoaded", getToys);
+  divEl.appendChild(h2El)
+  divEl.appendChild(imgEl)
+  divEl.appendChild(pEl)
+  divEl.appendChild(buttonEl)
 
-function createToy(event) {
-    //take in the form values and create a toy object
-    //pass that toy object to the db and page with the two functions
-    const newToy = {
-        name: event.target.name.value,
-        image: event.target.image.value
-    }
-    postToDb(newToy).then(listToy)
+  buttonEl.addEventListener('click', event =>{
+    event.target.previousElementSibling.innerText = parseInt(event.target.previousElementSibling.innerText) + 1
+    ++toy.likes
+    likeEvent(toy)
+  })
+
+  toyCollection.appendChild(divEl)
+}
+/////////////////////////////////////
+//////Like Post Event////////////////
+function likeEvent(toy) {
+    return fetch(`${toysURL}/${toy.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "likes": toy.likes
+      })
+    })
 }
 
 
-function addToyToIndex(toys) {
-  toys.forEach(toy => {
-    listToy(toy)
-  });
-}
+/////////////////////////////////////
+/////////////////////////////////////
 
-
-
-///////////////creates a div with class 'card' which you will add each toy to.
-function listToy(toy) {
-  let newDiv = document.createElement('div')
-  newDiv.className ='card'
-  newDiv.innerHTML = `<h2>${toy.name}</h2><img class= "toy-avatar" src = "${toy.image}"><p>${toy.likes}</p><button class= "like-btn">Like <3</button>`
-  toyCollection.append(newDiv)
-  assignLikeButton()
-  addEventListenerToButton()
-}
-
-
-////////////POSTING TO DATABASE
-function postToDb(toy) {
-    fetch("http://localhost:3000/toys", {
-        method: "POST", 
-        headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-        }, 
-        body: JSON.stringify(toy)
-    }).then(resp => resp.json()) 
-}
-////////////////////////
-function getToys() {
-    fetch("http://localhost:3000/toys")
-    .then(function(response) {
-      return response.json() 
-    }).then(function(json) {
-      //now pass json into function to grab each toy
-      addToyToIndex(json)
-      //console.log(json)
-}) } 
-
-function assignLikeButton() {
- likes = document.querySelectorAll('.like-btn')
-}
-
-function addEventListenerToButton() {
-    likes.forEach(like => like.addEventListener('click', (e) => {e.target.parentNode.children[2].innerText = parseInt(e.target.parentNode.children[2].innerText) + 1}))
-}
+renderToys()
